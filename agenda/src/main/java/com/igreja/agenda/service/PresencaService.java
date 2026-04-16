@@ -3,6 +3,7 @@ package com.igreja.agenda.service;
 import com.igreja.agenda.dto.PresencaRequest;
 import com.igreja.agenda.dto.PresencaResponse;
 import com.igreja.agenda.entity.*;
+import com.igreja.agenda.exception.BusinessException;
 import com.igreja.agenda.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,10 @@ public class PresencaService {
     public PresencaResponse responder(PresencaRequest presencaRequest, String emailUsuario) {
 
         Usuario usuario = usuarioRepository.findByEmail(emailUsuario)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         Evento evento = eventoRepository.findById(presencaRequest.getEventoId())
-                .orElseThrow(() -> new RuntimeException("Evento não encontrado"));
+                .orElseThrow(() -> new BusinessException("Evento não encontrado"));
 
         Presenca presenca = presencaRepository
                 .findByUsuarioIdAndEventoId(usuario.getId(), evento.getId())
@@ -49,7 +50,7 @@ public class PresencaService {
 
         // VALIDA SE EVENTO EXISTE
         eventoRepository.findById(eventoId)
-                .orElseThrow(() -> new RuntimeException("Evento não encontrado"));
+                .orElseThrow(() -> new BusinessException("Evento não encontrado"));
 
         return presencaRepository.findByEventoId(eventoId)
                 .stream()

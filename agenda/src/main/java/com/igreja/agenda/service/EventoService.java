@@ -4,6 +4,7 @@ import com.igreja.agenda.dto.EventoRequest;
 import com.igreja.agenda.dto.EventoResponse;
 import com.igreja.agenda.entity.Evento;
 import com.igreja.agenda.entity.Usuario;
+import com.igreja.agenda.exception.BusinessException;
 import com.igreja.agenda.repository.EventoRepository;
 import com.igreja.agenda.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class EventoService {
 
     public EventoResponse criar(EventoRequest request, String emailUsuario) {
         Usuario usuario = usuarioRepository.findByEmail(emailUsuario)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         Evento evento = Evento.builder()
                 .titulo(request.getTitulo())
@@ -44,14 +45,14 @@ public class EventoService {
 
     public EventoResponse buscarPorId(Long id) {
         Evento evento = eventoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Evento não encontrado"));
+                .orElseThrow(() -> new BusinessException("Evento não encontrado"));
 
         return toResponse(evento);
     }
 
     public EventoResponse atualizar(Long id, EventoRequest request) {
         Evento evento = eventoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Evento não encontrado"));
+                .orElseThrow(() -> new BusinessException("Evento não encontrado"));
 
         evento.setTitulo(request.getTitulo());
         evento.setDescricao(request.getDescricao());
@@ -65,7 +66,7 @@ public class EventoService {
 
     public void deletar(Long id) {
         if (!eventoRepository.existsById(id)) {
-            throw new RuntimeException("Evento não encontrado");
+            throw new BusinessException("Evento não encontrado");
         }
 
         eventoRepository.deleteById(id);

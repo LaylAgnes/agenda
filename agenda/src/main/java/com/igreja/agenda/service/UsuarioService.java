@@ -2,6 +2,7 @@ package com.igreja.agenda.service;
 
 import com.igreja.agenda.entity.Usuario;
 import com.igreja.agenda.entity.Role;
+import com.igreja.agenda.exception.BusinessException;
 import com.igreja.agenda.repository.UsuarioRepository;
 import com.igreja.agenda.dto.UsuarioResponse;
 
@@ -28,7 +29,7 @@ public class UsuarioService {
 
         // VALIDA DUPLICIDADE
         if (repository.findByEmail(email).isPresent()) {
-            throw new RuntimeException("Email já cadastrado");
+            throw new BusinessException("Email já cadastrado");
         }
 
         // REGRA: sempre nasce MEMBRO
@@ -62,7 +63,7 @@ public class UsuarioService {
 
     public UsuarioResponse buscarPorId(Long id) {
         Usuario usuario = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
 
         return new UsuarioResponse(
                 usuario.getId(),
@@ -75,7 +76,7 @@ public class UsuarioService {
 
         // valida existência antes de deletar
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Usuário não encontrado");
+            throw new BusinessException("Usuário não encontrado");
         }
 
         repository.deleteById(id);

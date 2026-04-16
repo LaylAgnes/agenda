@@ -4,6 +4,7 @@ import com.igreja.agenda.dto.AuthRequest;
 import com.igreja.agenda.dto.AuthResponse;
 import com.igreja.agenda.entity.Role;
 import com.igreja.agenda.entity.Usuario;
+import com.igreja.agenda.exception.BusinessException;
 import com.igreja.agenda.repository.UsuarioRepository;
 import com.igreja.agenda.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class AuthService {
 
         // verifica duplicidade corretamente
         if (repository.findByEmail(email).isPresent()) {
-            throw new RuntimeException("Email já cadastrado");
+            throw new BusinessException("Email já cadastrado");
         }
 
         Usuario usuario = new Usuario();
