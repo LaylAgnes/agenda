@@ -37,7 +37,7 @@ public class AuthService {
 
         Usuario salvo = repository.save(usuario);
 
-        String token = jwtService.gerarToken(salvo.getEmail());
+        String token = jwtService.gerarToken(salvo);
 
         return new AuthResponse(token);
     }
@@ -54,7 +54,7 @@ public class AuthService {
             throw new RuntimeException("Senha inválida");
         }
 
-        String token = jwtService.gerarToken(usuario.getEmail());
+        String token = jwtService.gerarToken(usuario);
 
         return new AuthResponse(token);
     }
