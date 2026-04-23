@@ -19,7 +19,7 @@ public class EventoController {
     private final EventoService eventoService;
 
     // Só ADMIN pode criar
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public EventoResponse criarEvento(@RequestBody EventoRequest request, Authentication auth) {
         return eventoService.criar(request, auth.getName());
@@ -39,7 +39,7 @@ public class EventoController {
     }
 
     // Só ADMIN pode atualizar
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public EventoResponse atualizar(@PathVariable Long id,
                                     @RequestBody @Valid EventoRequest request) {
@@ -47,7 +47,7 @@ public class EventoController {
     }
 
     // Só ADMIN pode deletar
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void deletar(@PathVariable Long id) {
         eventoService.deletar(id);
