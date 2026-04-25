@@ -27,6 +27,9 @@ public class Evento {
 
     private LocalTime hora;
 
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Presenca> presencas;
+
     @ManyToOne
     @JoinColumn(name = "criado_por")
     private Usuario criadoPor;
