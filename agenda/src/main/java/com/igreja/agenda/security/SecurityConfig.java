@@ -44,7 +44,7 @@ public class SecurityConfig {
                         // cadastro liberado (se quiser travar depois, muda aqui)
                         .requestMatchers("/usuarios").permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/eventos/**").permitAll()
+                        .anyRequest().authenticated()
                 )
 
                 // adiciona filtro JWT
